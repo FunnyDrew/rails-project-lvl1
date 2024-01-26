@@ -7,8 +7,9 @@ module HexletCode
 
   # Your code goes here...
   require "byebug"
+
   module Tag
-    SINGLE_TAGS = ["br", "img", "input"]
+    SINGLE_TAGS = %w[br img input].freeze
 
     def self.build(tag, arg = {}, &body)
       init = ["<#{tag}"]
