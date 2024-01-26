@@ -4,5 +4,5 @@ install:
 testing: 
 	ruby test/test_hexlet_code.rb
 
-rubocop:
+lint:
 	rubocop lib test
