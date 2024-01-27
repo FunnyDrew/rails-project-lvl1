@@ -13,12 +13,11 @@ module HexletCode
 
     def self.build(tag, arg = {}, &body)
       init = ["<#{tag}"]
+       acc = init + arg_pack(arg)
       if SINGLE_TAGS.include? tag
-        acc = init + arg_pack(arg)
-        html = "#{acc.join(" ")}>"
+       html = "#{acc.join(" ")}>"
       else
         content = body.call if block_given?
-        acc = init + arg_pack(arg)
         html = acc.join(" ") + ">#{content}</#{tag}>"
       end
       html
