@@ -16,5 +16,8 @@ Style/StringLiteralsInInterpolation:
   Enabled: true
   EnforcedStyle: double_quotes
 
+Lint/EmptyBlock:
+  Enabled: false
+
 Layout/LineLength:
   Max: 120
