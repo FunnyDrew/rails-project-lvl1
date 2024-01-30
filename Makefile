@@ -6,3 +6,6 @@ testing:
 
 lint:
 	rubocop lib test
+
+try:
+	ruby lib/try.rb

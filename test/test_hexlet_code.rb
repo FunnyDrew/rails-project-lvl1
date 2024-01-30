@@ -51,6 +51,7 @@ class TestHexletCode < Minitest::Test
   def test_form_with_url
     user = User.new
     result = HexletCode.form_for user, url: "/users" do |f|
+      puts f
     end
 
     assert_equal result, '<form action="/users" method="post"></form>'
