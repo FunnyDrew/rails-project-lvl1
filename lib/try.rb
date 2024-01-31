@@ -5,7 +5,7 @@ user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
 
 result = HexletCode.form_for user do |f|
-	f.input :name 	
+	f.input :name	
 end
 
 puts result
