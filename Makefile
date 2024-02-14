@@ -5,7 +5,7 @@ testing:
 	ruby test/test_hexlet_code.rb
 
 lint:
-	rubocop lib test
+	rubocop  lib test
 
 try:
 	ruby lib/try.rb

@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+require "byebug"
+
 module HexletCode
   module Tag
     SINGLE_TAGS = %w[br img input].freeze
 
-    def self.build(tag, arg = {}, &body)
+    def build(tag, arg = {}, &body)
       init = ["<#{tag}"]
       acc = init + arg_pack(arg)
       if SINGLE_TAGS.include? tag
@@ -13,15 +15,18 @@ module HexletCode
         content = body.call if block_given?
         html = acc.join(" ") + ">#{content}</#{tag}>"
       end
+
       html
     end
 
-    def self.arg_pack(arg)
+    def arg_pack(arg)
       atributes = []
       arg.each do |key, value|
         atributes << ("#{key}=\"#{value}\"")
       end
       atributes
     end
+
+    module_function :arg_pack
   end
 end

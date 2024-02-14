@@ -7,53 +7,53 @@ class TestHexletCode < Minitest::Test
     refute_nil ::HexletCode::VERSION
   end
 
-  User = Struct.new(:name, :job, keyword_init: true)
+  User = Struct.new(:name, :job, :gender, keyword_init: true)
 
-  def before_setup; end
-
-  def test_br_tag
-    # skip
-    assert_equal "<br>", HexletCode::Tag.build("br")
+  def before_setup
+    @path = "#{File.dirname(__FILE__)}/__fixtures__/"
   end
 
-  def test_img_tag
-    # skip
-    assert_equal '<img src="path/to/image">', HexletCode::Tag.build("img", src: "path/to/image")
-  end
+  def test_input_and_textarea
+    user = User.new name: "rob", job: "hexlet", gender: "m"
 
-  def test_input_tag
-    # skip
-    assert_equal '<input type="submit" value="Save">', HexletCode::Tag.build("input", type: "submit", value: "Save")
-  end
+    file_path = "#{@path}fixture1.html"
+    file = File.open(file_path)
+    file_content = file.read.strip
 
-  def test_label_tag
-    # skip
-    assert_equal "<label>Email</label>", HexletCode::Tag.build("label") { "Email" }
-  end
-
-  def test_div_tag
-    # skip
-    assert_equal "<div></div>", HexletCode::Tag.build("div")
-  end
-
-  def test_div_tag_with_arg
-    # skip
-    assert_equal HexletCode::Tag.build("div") { "Article" }, "<div>Article</div>"
-  end
-
-  def test_form_without_url
-    user = User.new
-    result = HexletCode.form_for user do |f|
-    end
-    assert_equal result, '<form action="#" method="post"></form>'
-  end
-
-  def test_form_with_url
-    user = User.new
-    result = HexletCode.form_for user, url: "/users" do |f|
-      puts f
+    generated = HexletCode.form_for user do |f|
+      f.input :name
+      f.input :job, as: :text
     end
 
-    assert_equal result, '<form action="/users" method="post"></form>'
+    assert_equal file_content, generated
+  end
+
+  def test_input_with_class
+    user = User.new name: "rob", job: "hexlet", gender: "m"
+
+    file_path = "#{@path}fixture2.html"
+    file = File.open(file_path)
+    file_content = file.read.strip
+
+    generated = HexletCode.form_for user, url: "#" do |f|
+      f.input :name, class: "user-input"
+      f.input :job
+    end
+
+    assert_equal file_content, generated
+  end
+
+  def test_textarea_change_cols_rows
+    user = User.new name: "rob", job: "hexlet", gender: "m"
+
+    file_path = "#{@path}fixture4.html"
+    file = File.open(file_path)
+    file_content = file.read.strip
+
+    generated = HexletCode.form_for user, url: "#" do |f|
+      f.input :job, as: :text, rows: 50, cols: 50
+    end
+
+    assert_equal file_content, generated
   end
 end

@@ -8,67 +8,41 @@ module HexletCode
   class Error < StandardError; end
 
   # Your code goes here...
+  # Здесь можно добавить класс
+
   def self.form_for(user, url = {}, &block)
-    @object = user
-    action_string = url.empty? ? "#" : url[:url]
-    block.call(self)
+    action_string = url.empty? ? '"#"' : "\"#{url[:url]}\""
+    in_form_block = block.call(Wraper.new(user)).join
+    "<form action=#{action_string} method=\"post\">#{in_form_block}</form>"
   end
 
-  def self.input(name, option = {})
+  def input(name, option = {})
+    main_option = {
+      name:,
+      type: "text",
+      value: @user.public_send(name)
+    }
+    if option.include?(:as)
+      option.shift
+      main_option = {
+        name:,
+        cols: "20",
+        rows: "40"
+      }
+      acc.push(build("textarea", main_option.merge(option)) { @user.public_send(name) })
+    else
+      acc.push(build("input", main_option.merge(option)))
+    end
+  end
 
-    
-    self::Tag.build('input', {
-    :name => name,
-    :type => "text",
-    :value => @object.public_send(name)})  
+  class Wraper
+    include HexletCode
+    include HexletCode::Tag
+    attr_accessor :acc
+
+    def initialize(user)
+      @user = user
+      @acc = []
+    end
   end
 end
-
-=begin
-  
-User = Struct.new(:name, :job, :gender, keyword_init: true)
-user = User.new name: 'rob', job: 'hexlet', gender: 'm'
-
-HexletCode.form_for user do |f|
-  # Проверяет есть ли значение внутри name
-  f.input :name
-  # Проверяет есть ли значение внутри job
-  f.input :job, as: :text
-end
-
-# Для удобства пример указан с переносами строк. Но реализовывать их необязательно
-# <form action="#" method="post">
-#   <input name="name" type="text" value="rob">
-#   <textarea name="job" cols="20" rows="40">hexlet</textarea>
-# </form>
-Для полей можно указать дополнительные атрибуты в виде хеша последним параметром
-
-HexletCode.form_for user, url: '#' do |f|
-  f.input :name, class: 'user-input'
-  f.input :job
-end
-
-# <form action="#" method="post">
-#   <input name="name" type="text" value="rob" class="user-input">
-#   <input name="job" type="text" value="hexlet">
-# </form>
-У полей могут быть дефолтные значения, которые можно переопределить
-
-HexletCode.form_for user do |f|
-  f.input :job, as: :text
-end
-
-# <form action="#" method="post">
-#   <textarea name="job" cols="20" rows="40">hexlet</textarea>
-# </form>
-
-HexletCode.form_for user, url: '#' do |f|
-  f.input :job, as: :text, rows: 50, cols: 50
-end
-
-# <form action="#" method="post">
-#   <textarea cols="50" rows="50" name="job">hexlet</textarea>
-# </form>
-
-  
-=end
