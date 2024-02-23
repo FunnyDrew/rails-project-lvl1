@@ -10,16 +10,15 @@ module HexletCode
   def self.form_for(user, option = {}, &block)
     main_option = {
       action: option[:url] || "#",
-      method: "post",
+      method: "post"
     }
 
     in_form_block = block.call(Wraper.new(user)).join
 
     # "<form action=#{action_string} method=\"post\">#{in_form_block}</form>"
-    new_option = option.shift
+    option.shift
 
-    build("form", main_option.merge(option)){in_form_block}
-
+    build("form", main_option.merge(option)) { in_form_block }
   end
 
   def input(field_name, option = {})
