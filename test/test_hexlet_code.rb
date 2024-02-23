@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "test_helper"
+require_relative 'test_helper'
 
 class TestHexletCode < Minitest::Test
   def test_that_it_has_a_version_number
@@ -15,7 +15,7 @@ class TestHexletCode < Minitest::Test
 
   def test_input_and_textarea
     skip
-    user = User.new name: "rob", job: "hexlet", gender: "m"
+    user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
     file_path = "#{@path}fixture1.html"
     file = File.open(file_path)
@@ -31,14 +31,14 @@ class TestHexletCode < Minitest::Test
 
   def test_input_with_class
     skip
-    user = User.new name: "rob", job: "hexlet", gender: "m"
+    user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
     file_path = "#{@path}fixture2.html"
     file = File.open(file_path)
     file_content = file.read.strip
 
-    generated = HexletCode.form_for user, url: "#" do |f|
-      f.input :name, class: "user-input"
+    generated = HexletCode.form_for user, url: '#' do |f|
+      f.input :name, class: 'user-input'
       f.input :job
     end
 
@@ -47,13 +47,13 @@ class TestHexletCode < Minitest::Test
 
   def test_textarea_change_cols_rows
     skip
-    user = User.new name: "rob", job: "hexlet", gender: "m"
+    user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
     file_path = "#{@path}fixture4.html"
     file = File.open(file_path)
     file_content = file.read.strip
 
-    generated = HexletCode.form_for user, url: "#" do |f|
+    generated = HexletCode.form_for user, url: '#' do |f|
       f.input :job, as: :text, rows: 50, cols: 50
     end
 
@@ -61,16 +61,16 @@ class TestHexletCode < Minitest::Test
   end
 
   def test_submit
-    user = User.new job: "hexlet"
+    user = User.new job: 'hexlet'
 
     file_path = "#{@path}fixture5.html"
     file = File.open(file_path)
     file_content = file.read.strip
 
-    generated = HexletCode.form_for user, url: "#" do |f|
+    generated = HexletCode.form_for user, url: '#' do |f|
       f.input :name
       f.input :job
-      f.submit "Wow"
+      f.submit 'Wow'
     end
 
     assert_equal file_content, generated
