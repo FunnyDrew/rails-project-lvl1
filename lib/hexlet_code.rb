@@ -7,32 +7,40 @@ require_relative "tag"
 module HexletCode
   class Error < StandardError; end
 
-  # Your code goes here...
-  # Здесь можно добавить класс
-
   def self.form_for(user, url = {}, &block)
     action_string = url.empty? ? '"#"' : "\"#{url[:url]}\""
+
     in_form_block = block.call(Wraper.new(user)).join
+
     "<form action=#{action_string} method=\"post\">#{in_form_block}</form>"
   end
 
-  def input(name, option = {})
+  def input(field_name, option = {})
+    acc.push(build("label", { for: field_name }) { field_name.capitalize })
     main_option = {
-      name:,
+      name: field_name,
       type: "text",
-      value: @user.public_send(name)
+      value: @user.public_send(field_name)
     }
     if option.include?(:as)
       option.shift
       main_option = {
-        name:,
+        name: field_name,
         cols: "20",
         rows: "40"
       }
-      acc.push(build("textarea", main_option.merge(option)) { @user.public_send(name) })
+      acc.push(build("textarea", main_option.merge(option)) { @user.public_send(field_name) })
     else
       acc.push(build("input", main_option.merge(option)))
     end
+  end
+
+  def submit(button_value = "Save")
+    init_form = {
+      type: "submit",
+      value: button_value
+    }
+    acc.push(build("input", init_form))
   end
 
   class Wraper
