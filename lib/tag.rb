@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "byebug"
-
 module HexletCode
   module Tag
     SINGLE_TAGS = %w[br img input].freeze
