@@ -4,18 +4,27 @@ require_relative "hexlet_code/version"
 require_relative "tag"
 
 module HexletCode
+  extend Tag
   class Error < StandardError; end
 
-  def self.form_for(user, url = {}, &block)
-    action_string = url.empty? ? '"#"' : "\"#{url[:url]}\""
+  def self.form_for(user, option = {}, &block)
+    main_option = {
+      action: option[:url] || "#",
+      method: "post",
+    }
 
     in_form_block = block.call(Wraper.new(user)).join
 
-    "<form action=#{action_string} method=\"post\">#{in_form_block}</form>"
+    # "<form action=#{action_string} method=\"post\">#{in_form_block}</form>"
+    new_option = option.shift
+
+    build("form", main_option.merge(option)){in_form_block}
+
   end
 
   def input(field_name, option = {})
     acc.push(build("label", { for: field_name }) { field_name.capitalize })
+
     main_option = {
       name: field_name,
       type: "text",

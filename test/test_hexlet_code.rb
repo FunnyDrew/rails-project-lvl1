@@ -75,4 +75,21 @@ class TestHexletCode < Minitest::Test
 
     assert_equal file_content, generated
   end
+
+  def test_form_with_get
+    user = User.new name: 'rob'
+
+    file_path = "#{@path}fixture6.html"
+    file = File.open(file_path)
+    file_content = file.read.strip
+    puts file_content
+
+    generated = HexletCode.form_for user, url: '/profile', method: :get, class: 'hexlet-form' do |f|
+      f.submit
+    end
+    assert_equal file_content, generated
+  end
+
+
+
 end
