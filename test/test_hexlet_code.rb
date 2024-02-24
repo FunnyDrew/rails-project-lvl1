@@ -14,7 +14,7 @@ class TestHexletCode < Minitest::Test
   end
 
   def test_input_and_textarea
-    skip
+    # skip
     user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
     file_path = "#{@path}fixture1.html"
@@ -30,7 +30,7 @@ class TestHexletCode < Minitest::Test
   end
 
   def test_input_with_class
-    skip
+    # skip
     user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
     file_path = "#{@path}fixture2.html"
@@ -46,7 +46,7 @@ class TestHexletCode < Minitest::Test
   end
 
   def test_textarea_change_cols_rows
-    skip
+    # skip
     user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
     file_path = "#{@path}fixture4.html"

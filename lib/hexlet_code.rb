@@ -1,53 +1,53 @@
 # frozen_string_literal: true
 
 require_relative 'hexlet_code/version'
-require_relative 'tag'
 
 module HexletCode
+  autoload :Tag, 'tag.rb'
   extend Tag
+
   class Error < StandardError; end
 
   def self.form_for(user, option = {}, &block)
-    main_option = {
+    init_options = {
       action: option[:url] || '#',
       method: 'post'
     }
 
     in_form_block = block.call(Wraper.new(user)).join
 
-    # "<form action=#{action_string} method=\"post\">#{in_form_block}</form>"
-    option.shift
+    form_options = init_options.merge(option).except(:url)
 
-    build('form', main_option.merge(option)) { in_form_block }
+    build('form', form_options) { in_form_block }
   end
 
   def input(field_name, option = {})
     acc.push(build('label', { for: field_name }) { field_name.capitalize })
 
-    main_option = {
+    init_options = {
       name: field_name,
       type: 'text',
       value: @user.public_send(field_name)
     }
+
     if option.include?(:as)
-      option.shift
-      main_option = {
+      init_options = {
         name: field_name,
         cols: '20',
         rows: '40'
       }
-      acc.push(build('textarea', main_option.merge(option)) { @user.public_send(field_name) })
+      acc.push(build('textarea', init_options.merge(option).except(:as)) { @user.public_send(field_name) })
     else
-      acc.push(build('input', main_option.merge(option)))
+      acc.push(build('input', init_options.merge(option)))
     end
   end
 
   def submit(button_value = 'Save')
-    init_form = {
+    init_options = {
       type: 'submit',
       value: button_value
     }
-    acc.push(build('input', init_form))
+    acc.push(build('input', init_options))
   end
 
   class Wraper
