@@ -3,7 +3,7 @@
 class Submit
   attr_accessor :init_options, :options, :field
 
-  def initialize(button_name = 'Save')
+  def initialize(button_name)
     @field = field
     @init_options = { type: 'submit',
                       value: button_name }
