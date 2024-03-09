@@ -6,13 +6,18 @@ class FormRender
     form.reduce('') do |acc, item|
       if item[:children].empty?
 
-        unlabeled = item[:label].empty?
-        label = unlabeled ? '' : HexletCode::Tag.build('label', item[:label][:options]) { item[:label][:body] }
+        label = make_label(item[:label])
 
         "#{acc}#{label}#{HexletCode::Tag.build(item[:name], item[:options]) { item[:body] }}"
       else
         "#{acc}#{HexletCode::Tag.build(item[:name], item[:options]) { render_html(item[:children]) }}"
       end
     end
+  end
+
+  def make_label(label_data)
+    return '' if label_data.empty?
+
+    HexletCode::Tag.build('label', label_data[:options]) { label_data[:body] }
   end
 end

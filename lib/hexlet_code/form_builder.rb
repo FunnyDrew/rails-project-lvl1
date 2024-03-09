@@ -18,7 +18,7 @@ class FormBuilder
     children << input_tag.to_a
   end
 
-  def submit(button_name = "Save")
+  def submit(button_name = 'Save')
     input_tag = Submit.new(button_name)
     children << input_tag.to_a
   end
