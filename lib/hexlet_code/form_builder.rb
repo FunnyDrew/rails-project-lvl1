@@ -2,7 +2,7 @@
 
 module HexletCode
   class FormBuilder
-    attr_accessor :children, :name, :options, :user
+    attr_reader :children, :name, :options, :user
 
     def initialize(user, options = {})
       @user = user

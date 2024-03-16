@@ -2,7 +2,7 @@
 
 module HexletCode
   class Submit
-    attr_accessor :init_options, :options, :field
+    attr_reader :init_options, :options, :field
 
     def initialize(button_name)
       @field = field
