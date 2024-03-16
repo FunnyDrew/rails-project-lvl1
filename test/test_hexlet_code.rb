@@ -9,17 +9,11 @@ class TestHexletCode < Minitest::Test
 
   User = Struct.new(:name, :job, :gender, keyword_init: true)
 
-  def before_setup
-    @path = "#{File.dirname(__FILE__)}/__fixtures__/"
-  end
-
   def test_simple_input_tag
     # skip
     user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
-    file_path = "#{@path}fixture0.html"
-    file = File.open(file_path)
-    file_content = file.read.strip
+    file_content = load_fixture('fixture0.html')
 
     generated = HexletCode.form_for user do |f|
       f.input :name
@@ -33,9 +27,7 @@ class TestHexletCode < Minitest::Test
     # skip
     user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
-    file_path = "#{@path}fixture1.html"
-    file = File.open(file_path)
-    file_content = file.read.strip
+    file_content = load_fixture('fixture1.html')
 
     generated = HexletCode.form_for user do |f|
       f.input :name
@@ -49,9 +41,7 @@ class TestHexletCode < Minitest::Test
     # skip
     user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
-    file_path = "#{@path}fixture2.html"
-    file = File.open(file_path)
-    file_content = file.read.strip
+    file_content = load_fixture('fixture2.html')
 
     generated = HexletCode.form_for user, url: '#' do |f|
       f.input :name, class: 'user-input'
@@ -65,9 +55,7 @@ class TestHexletCode < Minitest::Test
     # skip
     user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
-    file_path = "#{@path}fixture4.html"
-    file = File.open(file_path)
-    file_content = file.read.strip
+    file_content = load_fixture('fixture3.html')
 
     generated = HexletCode.form_for user, url: '#' do |f|
       f.input :job, as: :text, rows: 50, cols: 50
@@ -80,9 +68,7 @@ class TestHexletCode < Minitest::Test
     # skip
     user = User.new job: 'hexlet'
 
-    file_path = "#{@path}fixture5.html"
-    file = File.open(file_path)
-    file_content = file.read.strip
+    file_content = load_fixture('fixture4.html')
 
     generated = HexletCode.form_for user, url: '#' do |f|
       f.input :name
