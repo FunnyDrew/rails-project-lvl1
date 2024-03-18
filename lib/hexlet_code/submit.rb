@@ -2,21 +2,12 @@
 
 module HexletCode
   class Submit
-    attr_reader :init_options, :options, :field
+    attr_reader :init_options, :options, :tag_name
 
-    def initialize(button_name)
-      @field = field
-      @init_options = { type: 'submit',
-                        value: button_name }
-      @options = options
-    end
-
-    def to_a
-      { name: 'input',
-        label: {},
-        options: init_options,
-        body: '',
-        children: [] }
+    def initialize(_name, value, _options)
+      @tag_name = 'input'
+      @options = { type: 'submit',
+                   value: }
     end
   end
 end

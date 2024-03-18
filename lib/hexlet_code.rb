@@ -7,12 +7,12 @@ module HexletCode
   autoload :FormBuilder, 'hexlet_code/form_builder.rb'
   autoload :FormRender, 'hexlet_code/form_render.rb'
   autoload :Input, 'hexlet_code/input.rb'
-  autoload :TextArea, 'hexlet_code/text_area.rb'
+  autoload :Text, 'hexlet_code/text.rb'
   autoload :Submit, 'hexlet_code/submit.rb'
 
-  def self.form_for(user, options = {}, &block)
-    form = FormBuilder.new(user, options)
+  def self.form_for(entity, options = {}, &block)
+    form = FormBuilder.new(entity, options)
     block.call(form)
-    FormRender.new.render_html(form.to_a)
+    FormRender.new.render_html(form)
   end
 end

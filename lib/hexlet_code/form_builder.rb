@@ -13,19 +13,16 @@ module HexletCode
     end
 
     def input(field_name, options = {})
-      field = { name: field_name,
-                value: user.public_send(field_name) }
-      input_tag = options.key?(:as) ? TextArea.new(field, options) : Input.new(field, options)
-      children << input_tag.to_a
+      children << { tag_name: options.key?(:as) ? options[:as] : 'input',
+                    name: field_name,
+                    value: user.public_send(field_name),
+                    options: }
     end
 
     def submit(button_name = 'Save')
-      input_tag = Submit.new(button_name)
-      children << input_tag.to_a
-    end
-
-    def to_a
-      [{ name:, label: {}, body: '', options:, children: }]
+      children << { tag_name: 'submit',
+                    name: '',
+                    value: button_name }
     end
   end
 end

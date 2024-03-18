@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
 module HexletCode
-  class Input
-    attr_reader :name, :value, :options, :tag_name
+  class Text
+    attr_reader :name, :value, :options, :tag_name, :body
 
     def initialize(name, value, options = {})
-      @tag_name = 'input'
+      @tag_name = 'textarea'
       @name = name
       @value = value
+      @body = value
       init_options = { name:,
-                       type: 'text',
-                       value: }
-      @options = init_options.merge(options)
+                       cols: '20',
+                       rows: '40' }
+      @options = init_options.merge(options).except(:as)
     end
 
     def labeled?

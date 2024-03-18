@@ -2,24 +2,24 @@
 
 module HexletCode
   class FormRender
-    # autoload :Tag, 'tag.rb'
     def render_html(form)
-      form.reduce('') do |acc, item|
-        if item[:children].empty?
-
-          label = make_label(item[:label])
-
-          "#{acc}#{label}#{HexletCode::Tag.build(item[:name], item[:options]) { item[:body] }}"
-        else
-          "#{acc}#{HexletCode::Tag.build(item[:name], item[:options]) { render_html(item[:children]) }}"
-        end
-      end
+      HexletCode::Tag.build('form', form.options) { children_render(form.children) }
     end
 
-    def make_label(label_data)
-      return '' if label_data.empty?
-
-      HexletCode::Tag.build('label', label_data[:options]) { label_data[:body] }
+    def children_render(children_list)
+      tags = children_list.map do |item|
+        tag = HexletCode.const_get(item[:tag_name].capitalize).new(item[:name], item[:value], item[:options])
+        label = if tag.respond_to?(:labeled?)
+                  HexletCode::Tag.build('label', tag.label_options) do
+                    tag.label_name
+                  end
+                else
+                  ''
+                end
+        body = tag.respond_to?(:body) ? tag.body : ''
+        "#{label}#{HexletCode::Tag.build(tag.tag_name, tag.options) { body }}"
+      end
+      tags.join
     end
   end
 end
