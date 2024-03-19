@@ -2,20 +2,19 @@
 
 module HexletCode
   class FormBuilder
-    attr_reader :children, :name, :options, :user
+    attr_reader :children, :form_options
 
-    def initialize(user, options = {})
-      @user = user
-      @name = 'form'
+    def initialize(entity, options = {})
+      @entity = entity
       url = options[:url] || '#'
-      @options = { action: url, method: 'post' }.merge(options).except(:url)
+      @form_options = { action: url, method: 'post' }.merge(options).except(:url)
       @children = []
     end
 
     def input(field_name, options = {})
       children << { tag_name: options.key?(:as) ? options[:as] : 'input',
                     name: field_name,
-                    value: user.public_send(field_name),
+                    value: @entity.public_send(field_name),
                     options: }
     end
 

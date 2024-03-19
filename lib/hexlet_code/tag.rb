@@ -5,8 +5,7 @@ module HexletCode
     SINGLE_TAGS = %w[br img input].freeze
 
     def self.build(tag, attributes = {}, &body)
-      attr_list = build_attributes(attributes)
-      html = "<#{tag}#{attr_list.join}>"
+      html = "<#{tag}#{build_attributes(attributes).join}>"
       return html if SINGLE_TAGS.include? tag
 
       content = body.call if block_given?
@@ -14,8 +13,8 @@ module HexletCode
       "#{html}#{content}</#{tag}>"
     end
 
-    def self.build_attributes(attr)
-      attr.map do |key, value|
+    def self.build_attributes(attributes)
+      attributes.map do |key, value|
         " #{key}=\"#{value}\""
       end
     end
