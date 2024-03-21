@@ -2,28 +2,27 @@
 
 module HexletCode
   class Input
-    attr_reader :name, :value, :options, :tag_name
-
-    def initialize(name, value, options = {})
-      @tag_name = 'input'
-      @name = name
-      @value = value
-      init_options = { name:,
+    def initialize(features)
+      init_options = { name: features[:name],
                        type: 'text',
-                       value: }
-      @options = init_options.merge(options)
-    end
-
-    def labeled?
-      true
+                       value: features[:value] }
+      @options = init_options.merge(features[:options])
     end
 
     def label_options
-      { for: name }
+      { for: @options[:name] }
     end
 
     def label_name
-      name.capitalize
+      @options[:name].capitalize
+    end
+
+    def label_render
+      HexletCode::Tag.build('label', label_options) { label_name }
+    end
+
+    def render
+      "#{label_render}#{HexletCode::Tag.build('input', @options)}"
     end
   end
 end

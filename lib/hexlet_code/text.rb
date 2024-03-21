@@ -2,29 +2,28 @@
 
 module HexletCode
   class Text
-    attr_reader :name, :value, :options, :tag_name, :body
-
-    def initialize(name, value, options = {})
-      @tag_name = 'textarea'
-      @name = name
-      @value = value
-      @body = value
-      init_options = { name:,
+    def initialize(features)
+      @body = features[:value]
+      init_options = { name: features[:name],
                        cols: '20',
                        rows: '40' }
-      @options = init_options.merge(options).except(:as)
-    end
-
-    def labeled?
-      true
+      @options = init_options.merge(features[:options]).except(:as)
     end
 
     def label_options
-      { for: name }
+      { for: @options[:name] }
     end
 
     def label_name
-      name.capitalize
+      @options[:name].capitalize
+    end
+
+    def label_render
+      HexletCode::Tag.build('label', label_options) { label_name }
+    end
+
+    def render
+      "#{label_render}#{HexletCode::Tag.build('textarea', @options) { @body }}"
     end
   end
 end
