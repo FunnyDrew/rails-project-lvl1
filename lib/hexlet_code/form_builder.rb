@@ -15,7 +15,7 @@ module HexletCode
       children << { tag_name: options.key?(:as) ? options[:as] : 'input',
                     name: field_name,
                     value: @entity.public_send(field_name),
-                    options: }
+                    options: options.except(:as) }
     end
 
     def submit(button_name = 'Save')

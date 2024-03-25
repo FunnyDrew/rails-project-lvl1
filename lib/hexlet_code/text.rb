@@ -7,7 +7,7 @@ module HexletCode
       init_options = { name: features[:name],
                        cols: '20',
                        rows: '40' }
-      @options = init_options.merge(features[:options]).except(:as)
+      @options = init_options.merge(features[:options])
     end
 
     def label_options
